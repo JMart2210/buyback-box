@@ -71,4 +71,3 @@ This project is being built in public as part of my DevOps learning journey. If 
 
 Created by **Jeremy Martin**  
 GitHub: [@JMart2210](https://github.com/JMart2210)  
-IG/TikTok/X: `@BuyBackBox` *(early stage, follow the journey!)*  
