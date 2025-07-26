@@ -1,10 +1,28 @@
-import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
-import { DynamoDBClient, PutItemCommand } from "@aws-sdk/client-dynamodb";
+const { S3Client, PutObjectCommand } = require("@aws-sdk/client-s3");
+const { DynamoDBClient, PutItemCommand } = require("@aws-sdk/client-dynamodb");
+const crypto = require("crypto");
+
 
 const s3 = new S3Client();
 const dynamo = new DynamoDBClient();
 
-export const handler = async (event) => {
+module.exports.handler = async (event) => {
+  console.log("==== Lambda Triggered ====");
+  console.log("Raw event from API Gateway:", JSON.stringify(event));
+
+  try {
+    const body = JSON.parse(event.body);
+    const { owner_name, cleaner_name, base64_image } = body;
+
+    console.log("Parsed body:", { owner_name, cleaner_name, base64_length: base64_image.length });
+  } catch (error) {
+    console.error("Error parsing event body:", error);
+    return {
+      statusCode: 400,
+      body: JSON.stringify({ message: "Invalid JSON in request body" })
+    };
+  }
+
   const body = JSON.parse(event.body);
 
   const { owner_name, cleaner_name, base64_image } = body;

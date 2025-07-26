@@ -1,0 +1,8 @@
+POST https://06zneu40k4.execute-api.us-east-2.amazonaws.com/dev/log-item
+Content-Type: application/json
+
+{
+  "owner_name": "Liam",
+  "cleaner_name": "Ava",
+  "base64_image": "aGVsbG8gd29ybGQ="
+}
