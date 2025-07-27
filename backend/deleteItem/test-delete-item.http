@@ -1,0 +1,7 @@
+DELETE https://06zneu40k4.execute-api.us-east-2.amazonaws.com/dev/delete-item?item_id=dd15f575-50ba-4299-afa2-6df5c536f2e5
+
+# Content-Type: application/json
+
+# {
+#   "item_id": "dd15f575-50ba-4299-afa2-6df5c536f2e5"
+# }
