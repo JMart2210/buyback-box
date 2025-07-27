@@ -1,0 +1,1 @@
+GET https://06zneu40k4.execute-api.us-east-2.amazonaws.com/dev/get-items?owner_name=Liam&status=open

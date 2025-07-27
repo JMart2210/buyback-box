@@ -1,0 +1,7 @@
+POST https://06zneu40k4.execute-api.us-east-2.amazonaws.com/dev/redeem-item
+Content-Type: application/json
+
+{
+  "item_id": "1fba2dda-9416-4df5-ad12-a5899d2a8bec",
+  "redeemed_by": "Liam"
+}

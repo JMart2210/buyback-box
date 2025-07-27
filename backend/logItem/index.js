@@ -7,8 +7,8 @@ const s3 = new S3Client();
 const dynamo = new DynamoDBClient();
 
 module.exports.handler = async (event) => {
-  console.log("==== Lambda Triggered ====");
-  console.log("Raw event from API Gateway:", JSON.stringify(event));
+  // console.log("==== Lambda Triggered ====");
+  // console.log("Raw event from API Gateway:", JSON.stringify(event));
 
   try {
     const body = JSON.parse(event.body);
@@ -22,10 +22,6 @@ module.exports.handler = async (event) => {
       body: JSON.stringify({ message: "Invalid JSON in request body" })
     };
   }
-
-  const body = JSON.parse(event.body);
-
-  const { owner_name, cleaner_name, base64_image } = body;
 
   const item_id = crypto.randomUUID();
   const buffer = Buffer.from(base64_image, "base64");

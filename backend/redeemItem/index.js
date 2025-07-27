@@ -1,15 +1,14 @@
-import { DynamoDBClient, UpdateItemCommand, GetItemCommand } from "@aws-sdk/client-dynamodb";
+const { DynamoDBClient, GetItemCommand, UpdateItemCommand } = require("@aws-sdk/client-dynamodb");
 
 const dynamo = new DynamoDBClient();
 
-export const handler = async (event) => {
+module.exports.handler = async (event) => {
   try {
     const body = JSON.parse(event.body);
     const { item_id, redeemed_by } = body;
 
     const tableName = process.env.ITEMS_TABLE;
 
-    // Optionally: Check if item exists before updating
     const getItem = await dynamo.send(new GetItemCommand({
       TableName: tableName,
       Key: { item_id: { S: item_id } }
@@ -22,7 +21,6 @@ export const handler = async (event) => {
       };
     }
 
-    // Update item status to "redeemed"
     await dynamo.send(new UpdateItemCommand({
       TableName: tableName,
       Key: { item_id: { S: item_id } },
