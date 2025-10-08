@@ -50,11 +50,11 @@ This project will help me gain hands-on experience with:
 
 ## 🗂️ Repo Structure (Planned)
 
-/backend
+/backend (Serverless backend with AWS Lambda functions for logging, retrieving, deleting, and redeeming items. Handles image uploads to S3 and item data in DynamoDB)
 └── logItem/
 └── index.js
 └── template.yaml
-/frontend
+/frontend(Expo React Native app for the BuyBack Box user interface. Includes screens for adding items, reusable UI components, theming, and API integration)
 └── App.js
 └── components/
 └── UploadItemCard.js
@@ -62,6 +62,42 @@ This project will help me gain hands-on experience with:
 └── MVP_Spec.md
 └── Architecture.drawio
 
+**main.tf**  
+Terraform script for provisioning AWS infrastructure (S3 bucket, DynamoDB table, IAM roles, Lambda functions)
+
+## 🛰️ Frontend–Backend Communication
+
+The Expo React Native app communicates with the backend via RESTful API endpoints exposed by AWS API Gateway. Each endpoint triggers a Lambda function that interacts with DynamoDB and S3.
+
+**API Endpoints & Data Flow:**
+
+- **Log Item:**  
+  `POST /log-item`  
+  Uploads item metadata and a base64-encoded image. Lambda stores the image in S3 and item data in DynamoDB.
+
+- **Get Items:**  
+  `GET /get-items?owner_name=<name>&status=<status>`  
+  Retrieves items for a specific owner (child) from DynamoDB.
+
+- **Redeem Item:**  
+  `POST /redeem-item`  
+  Marks an item as redeemed in DynamoDB.
+
+- **Delete Item:**  
+  `DELETE /delete-item?item_id=<id>`  
+  Deletes an item from DynamoDB.
+
+All API calls are made from the Expo app using fetch, with the API base URL set in `frontend/app/config.ts`. See `frontend/app/api.ts` for implementation details.
+
+## Dependencies
+| Purpose | Frontend Dependencies | Backend Dependencies |
+| :--- | :--- | :--- |
+| **UI/Navigation** | `react`, `react-native`, `expo`, `expo-router`, `@react-navigation/*`, `@expo/vector-icons` | — |
+| **Media/Animation** | `expo-image`, `expo-image-picker`, `expo-file-system`, `expo-blur`, `expo-haptics`, `reanimated` | — |
+| **Theming/Fonts** | `expo-font`, `expo-system-ui`, `expo-status-bar`, `expo-symbols` | — |
+| **AWS/Storage** | — | `@aws-sdk/client-dynamodb`, `lib-dynamodb`, `@aws-sdk/client-s3`, `crypto` |
+| **Dev Tools** | `eslint`, `typescript`, `@types/react` | — |
+| **Infra** | — | `Terraform` (`main.tf`) |
 
 ## 🤝 Contributing
 
