@@ -2,6 +2,12 @@ const { DynamoDBClient, GetItemCommand, UpdateItemCommand } = require("@aws-sdk/
 
 const dynamo = new DynamoDBClient();
 
+const corsHeaders = {
+  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Headers": "*",
+  "Access-Control-Allow-Methods": "OPTIONS,POST",
+};
+
 module.exports.handler = async (event) => {
   try {
     const body = JSON.parse(event.body);
@@ -17,6 +23,7 @@ module.exports.handler = async (event) => {
     if (!getItem.Item) {
       return {
         statusCode: 404,
+        headers: corsHeaders,
         body: JSON.stringify({ error: "Item not found" })
       };
     }
@@ -37,12 +44,14 @@ module.exports.handler = async (event) => {
 
     return {
       statusCode: 200,
+      headers: corsHeaders,
       body: JSON.stringify({ message: "Item redeemed", item_id })
     };
 
   } catch (err) {
     return {
       statusCode: 500,
+      headers: corsHeaders,
       body: JSON.stringify({ error: err.message })
     };
   }

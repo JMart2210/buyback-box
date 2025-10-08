@@ -4,6 +4,12 @@ const { DynamoDBDocumentClient, DeleteCommand } = require("@aws-sdk/lib-dynamodb
 const dynamoClient = new DynamoDBClient();
 const docClient = DynamoDBDocumentClient.from(dynamoClient);
 
+const corsHeaders = {
+  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Headers": "*",
+  "Access-Control-Allow-Methods": "DELETE,OPTIONS",
+};
+
 exports.handler = async (event) => {
   try {
     console.log("==== Lambda Triggered ====");
@@ -14,6 +20,7 @@ exports.handler = async (event) => {
     if (!item_id) {
       return {
         statusCode: 400,
+        headers: corsHeaders,
         body: JSON.stringify({ error: "Missing item_id" }),
       };
     }
@@ -27,12 +34,14 @@ exports.handler = async (event) => {
 
     return {
       statusCode: 200,
+      headers: corsHeaders,
       body: JSON.stringify({ message: "Item deleted", item_id }),
     };
   } catch (err) {
     console.error("Error deleting item:", err);
     return {
       statusCode: 500,
+      headers: corsHeaders,
       body: JSON.stringify({ error: err.message }),
     };
   }

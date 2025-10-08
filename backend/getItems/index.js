@@ -4,6 +4,12 @@ const { DynamoDBDocumentClient, ScanCommand } = require("@aws-sdk/lib-dynamodb")
 const client = new DynamoDBClient();
 const ddb = DynamoDBDocumentClient.from(client);
 
+const corsHeaders = {
+  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Headers": "*",
+  "Access-Control-Allow-Methods": "GET,OPTIONS",
+};
+
 exports.handler = async (event) => {
   try {
     const tableName = process.env.ITEMS_TABLE;
@@ -12,6 +18,7 @@ exports.handler = async (event) => {
     if (!owner_name) {
       return {
         statusCode: 400,
+        headers: corsHeaders,
         body: JSON.stringify({ error: "Missing owner_name parameter" }),
       };
     }
@@ -36,12 +43,14 @@ exports.handler = async (event) => {
 
     return {
       statusCode: 200,
+      headers: corsHeaders,
       body: JSON.stringify({ items: result.Items || [] }),
     };
   } catch (err) {
     console.error("Error fetching items:", err);
     return {
       statusCode: 500,
+      headers: corsHeaders,
       body: JSON.stringify({ error: err.message }),
     };
   }
